@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      .sidebar {
+        float: left;
+        width: 50%;
+      }
+      input {
+        margin-top: 10px;
+      }
+      button {
+        margin-top: 10px;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <title>Find Similar Sentences</title>
+  <body>
+    <div class="sidebar">
+      <div>
+        <input type="number" value="20" id="threshold"></input>
+        <label for="threshold">Similarity Threshold</label>
+      </div>
+      <div>
+        <input type="number" value="0" max="15" id="color-min"></input>
+        <label for="color-min">Min Color Value</label>
+      </div>
+      <div>
+        <input type="number" value="16" max="16" id="color-max"></input>
+        <label for="color-max">Max Color Value</label>
+      </div>
+      <div>
+        <button onclick="findDupe()">Find</button>
+      </div>
+    </div>
+    <script>
+      function findDupe(){
+        let threshold = document.getElementById("threshold").value;
+        let colorMin = document.getElementById("color-min").value;
+        let colorMax = document.getElementById("color-max").value;
+        this.disabled = true;
+        google.script.run
+          .withSuccessHandler(
+            function(returnSuccess, element){
+              element.disabled = false;
+            }
+          )
+          .withFailureHandler(
+            function(msg, element){
+              element.disabled = false;
+            }
+          )
+          .withUserObject(this)
+          .findDupe(threshold, colorMin, colorMax);
+      }
+    </script>
+  </body>
+</html>
